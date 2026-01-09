@@ -22,7 +22,11 @@ const register = mongoose.Schema(
             type: Boolean,
             default: false
         },
-        role : String,
+        role : {
+            type : String,
+            enum: ['Admin', 'employee'],
+            default: 'employee' 
+        },
         isActive : Boolean,
         createAt : Date 
     },

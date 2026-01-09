@@ -3,14 +3,12 @@ dotenv.config();
 import express from 'express';
 import userModel from './models/User.js';
 // import postModel from './models/post.js';
-// import cookieParser from 'cookie-parser';
 import bcrypt from 'bcrypt';
 import userRouter from "./routes/userRouter.js";
 import jwt from 'jsonwebtoken';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { connectDB } from './config/default.js';
-
 
 
 const __filename = fileURLToPath(import.meta.url);

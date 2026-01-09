@@ -1,15 +1,17 @@
 import userModel from "../models/User.js";
-import bcrypt from "bcrypt";    
+import bcrypt from "bcrypt";
 import generateToken from "../utils/genrateToken.js";
+import jwt from 'jsonwebtoken';
 
 
-   
+
+
 
 export async function registerUser(req, res) {
     try {
-        let { name, email, password } = req.body;
-    let user = await userModel.findOne({ email: email });
-    if (user) return res.status(401).send("You already have Account Please Login.");
+        let { name, email, password, role } = req.body;
+        let user = await userModel.findOne({ email: email });
+        if (user) return res.status(401).send("You already have Account Please Login.");
 
         bcrypt.genSalt(10, function (err, salt) {
             bcrypt.hash(password, salt, async function (err, hash) {
@@ -18,11 +20,12 @@ export async function registerUser(req, res) {
                     let user = await userModel.create({
                         name,
                         email,
-                        password: hash
+                        password: hash,
+                        role,
                     })
-                    let token = generateToken(user);
-                    res.cookie("token", token)
-                    res.send("User registered successfully");   
+                    let token = jwt.sign({ email: user.email, id: user._id }, 'secretkey');
+                    res.cookie('token', token);
+                    res.send('User registered successfully');
                 }
 
             })
@@ -32,7 +35,7 @@ export async function registerUser(req, res) {
 
     }
 }
-export  async function loginUser(req, res) {
+export async function loginUser(req, res) {
     try {
         let { email, password } = req.body;
         let user = await userModel.findOne({ email: email });
@@ -41,8 +44,8 @@ export  async function loginUser(req, res) {
         bcrypt.compare(password, user.password, function (err, result) {
             if (err) return res.send(err.message);
             if (result) {
-                let token = generateToken(user);
-                res.cookie("token", token)
+                 let token = jwt.sign({ email: user.email, id: user._id }, 'secretkey');
+            res.cookie('token', token);
                 res.send("Login successful");
             } else {
                 res.send("Incorrect password");
@@ -53,6 +56,6 @@ export  async function loginUser(req, res) {
     }
 }
 export function logoutUser(req, res) {
-    res.clearCookie("token");
+    res.cookie("token", "");
     res.send("Logged out successfully");
 }
