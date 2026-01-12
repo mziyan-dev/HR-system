@@ -10,7 +10,7 @@ const register = mongoose.Schema(
             unique: true,
             trim: true,
             lowercase: true,
-            // validate: [validator.isEmail, 'Please provide a valid email'],
+            
         },
         password: {
             type: String,
@@ -24,8 +24,8 @@ const register = mongoose.Schema(
         },
         role : {
             type : String,
-            enum: ['Admin', 'employee'],
-            default: 'employee' 
+            enum: ["Admin", "employee"],
+            default: "employee" 
         },
         isActive : Boolean,
         createAt : Date 

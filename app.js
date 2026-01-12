@@ -2,13 +2,15 @@ import dotenv from "dotenv";
 dotenv.config();
 import express from 'express';
 import userModel from './models/User.js';
-// import postModel from './models/post.js';
-import bcrypt from 'bcrypt';
 import userRouter from "./routes/userRouter.js";
-import jwt from 'jsonwebtoken';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { connectDB } from './config/default.js';
+import {isLoggedIn} from './middleware/isLoggedIn.js';
+import authRouter from "./routes/authRouter.js";
+
+
+
 
 
 const __filename = fileURLToPath(import.meta.url);
@@ -27,11 +29,11 @@ connectDB()
 app.get('/', (req, res) => {
     res.send('hello world');
 });
-app.get("/api/auth/login",()=>{
-    
-})
+
+
 
 app.use("/user",userRouter);
+app.use("/auth",authRouter);
 
 
 

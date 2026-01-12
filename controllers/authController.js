@@ -1,6 +1,6 @@
 import userModel from "../models/User.js";
 import bcrypt from "bcrypt";
-import generateToken from "../utils/genrateToken.js";
+import generateToken from "../utils/Token.js";
 import jwt from 'jsonwebtoken';
 
 
@@ -46,7 +46,7 @@ export async function loginUser(req, res) {
             if (result) {
                  let token = jwt.sign({ email: user.email, id: user._id }, 'secretkey');
             res.cookie('token', token);
-                res.send("Login successful");
+                res.send("Login successful", 'token', token);
             } else {
                 res.send("Incorrect password");
             }
