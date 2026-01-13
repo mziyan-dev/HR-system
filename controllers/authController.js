@@ -9,7 +9,7 @@ import jwt from 'jsonwebtoken';
 
 export async function registerUser(req, res) {
     try {
-        let { name, email, password, role } = req.body;
+        let { name, email, password, role, departmentID } = req.body;
         let user = await userModel.findOne({ email: email });
         if (user) return res.status(401).send("You already have Account Please Login.");
 
@@ -22,6 +22,7 @@ export async function registerUser(req, res) {
                         email,
                         password: hash,
                         role,
+                        departmentID,
                     })
                     let token = jwt.sign({ email: user.email, id: user._id }, 'secretkey');
                     res.cookie('token', token);

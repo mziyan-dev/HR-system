@@ -2,11 +2,13 @@ import mongoose from "mongoose";
 
 const taskSchema = new mongoose.Schema(
   {
-    assignedTo: {
+    assignedTo: [
+      {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Users", 
       required: true,
-    },
+    }
+  ],
     content: {
       type: String,
       required: true,
@@ -17,10 +19,16 @@ const taskSchema = new mongoose.Schema(
       enum: ["pending", "in-progress", "completed"],
       default: "pending",
     },
+     Department : {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Departments',
+    required: true
+  }
   },
   {
     timestamps: true 
-  }
+  },
+ 
 );
 
 const Task = mongoose.model("Task", taskSchema);

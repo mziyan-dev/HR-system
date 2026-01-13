@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-// import validator from 'validator';
 
 const register = mongoose.Schema(
     {
@@ -28,7 +27,11 @@ const register = mongoose.Schema(
             default: "employee" 
         },
         isActive : Boolean,
-        createAt : Date 
+        createAt : Date,
+        departmentID : {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Departments'
+        }
     },
 );
 
