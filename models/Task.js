@@ -19,7 +19,7 @@ const taskSchema = new mongoose.Schema(
       enum: ["pending", "in-progress", "completed"],
       default: "pending",
     },
-     Department : {
+    DepartmentID: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Departments',
     required: true

@@ -1,14 +1,13 @@
 import dotenv from "dotenv";
 dotenv.config();
 import express from 'express';
-import userModel from './models/User.js';
 import userRouter from "./routes/userRouter.js";
 import departmentRouter from "./routes/departmentRouter.js";
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { connectDB } from './config/default.js';
-import {isLoggedIn} from './middleware/isLoggedIn.js';
 import authRouter from "./routes/authRouter.js";
+import taskRouter from "./routes/taskRouter.js";
 
 
 
@@ -36,6 +35,8 @@ app.get('/', (req, res) => {
 app.use("/user",userRouter);
 app.use("/auth",authRouter);
 app.use("/department",departmentRouter);
+app.use("/task",taskRouter);
+
 
 
 app.listen(process.env.PORT,()=>{

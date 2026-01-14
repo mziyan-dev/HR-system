@@ -2,15 +2,17 @@ import Task from "../models/Task.js";
 
 export const createTask = async (req, res) => {
   try {
-    const { assignedTo, content } = req.body;
+    const { assignedTo, content, DepartmentID } = req.body;
 
-    if (!assignedTo || !content) {
+    if (!assignedTo || !content || !DepartmentID) {
       return res.status(400).json({ message: "All fields required" });
     }
+ 
 
     const task = await Task.create({
       assignedTo,
-      content
+      content,
+      DepartmentID
     });
 
     res.status(201).json({
@@ -23,10 +25,19 @@ export const createTask = async (req, res) => {
       error: error.message
     });
   }
+       const alreadyAssigned = await Task.findOne({
+      assignedTo,
+      content,
+      date
+    });
+
+    if (alreadyAssigned) {
+      return res.status(400).json({
+        success: false,
+        message: "Task already assigned to this user for the given content on the specified date"
+      });
+    }
 };
-
-
-
 export const updateTask = async (req, res) => {
   try {
     const { id } = req.params;
@@ -45,7 +56,7 @@ export const updateTask = async (req, res) => {
       error: error.message
     });
   }
-}
+};
 
 export const updateTaskStatus = async (req, res) => {
     try{
@@ -66,7 +77,7 @@ export const updateTaskStatus = async (req, res) => {
         error: error.message
       });
     }
-  };
+};
 
 export const deleteTask = async (req, res) => {
   try {
@@ -87,4 +98,4 @@ export const deleteTask = async (req, res) => {
       error: error.message
     });
   }
-}
+};

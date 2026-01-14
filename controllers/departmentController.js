@@ -53,7 +53,6 @@ export async function updateDepartment(req, res) {
   }
 };
 
-
 export async function deleteDepartment(req, res) {
   try {
     const { id } = req.params;
@@ -75,7 +74,6 @@ export async function deleteDepartment(req, res) {
     });
   }
 };
-
 
 
 export async function getAllDepartments(req, res){
